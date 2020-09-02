@@ -1,0 +1,267 @@
+<Label>:
+    font_size: 15
+
+Welcome:
+
+    name: "Welcome"
+
+    graph: graph
+    y_start: y_start
+    y_end: y_end
+    position: position
+    text_name: text_name
+    x_start: x_start
+    x_end: x_end
+    sub_down: sub_down
+    number_of_spectra: number_of_spectra
+
+    BoxLayout:
+        orientation: 'vertical'
+        #first row of buttons
+        BoxLayout:
+            size_hint_y: None
+            size_hint: (1, 0.05)
+
+            Button:
+                id: btn_load
+                text: 'Load'
+                on_release: root.show_load()
+
+            Label:
+                text: 'range from: '
+
+            TextInput:
+                id: x_start
+                multilnane: False
+
+            Label:
+                text: 'to: '
+
+            TextInput:
+                id: x_end
+                multilnane: False
+
+            Label:
+                text: 'ymin: '
+
+            TextInput:
+                id: y_start
+                multilnane: False
+
+            Label:
+                text: 'ymax: '
+
+            TextInput:
+                id: y_end
+                multilnane: False
+
+            Button:
+                text: "save"
+                on_release: root.show_save()
+
+            Button:
+                text: "DRAW"
+                on_release: root.draw_btn()
+
+            Label:
+                id: position
+                text: ''
+
+        #second row of buttons
+        BoxLayout:
+            size_hint_y: None
+            size_hint: (1, 0.05)
+
+            Button:
+                text: "substract"
+                on_release: root.substract()
+
+            Label:
+                text: 'sub value: '
+
+            TextInput:
+                id: sub_down
+                multilnane: False
+
+            Button:
+                text: "substract min"
+                on_release: root.sub_min()
+
+            Button:
+                text: "normalize"
+                on_release: root.normalize()
+
+            Button:
+                text: "clear"
+                on_release: root.clear()
+
+            Button:
+                text: "add"
+                on_release: root.add()
+
+            Label:
+                text: "number of spectra: "
+
+            Label:
+                id: number_of_spectra
+                text: number_of_spectra.text
+
+        BoxLayout:
+
+            size_hint_y: None
+            size_hint: (1, 0.9)
+
+            BoxLayout:
+                TextInput:
+                    id: text_name
+                    text: ''
+                    size_hint: 0.1, 1
+
+                Graph:
+                    id: graph
+                    size_hint: 0.3, 1
+                    xlabel:'wavelength / nm'
+                    ylabel: 'Absorbance / a.u.'
+                    x_ticks_minor: 5
+                    x_ticks_major: 50
+                    y_ticks_major: 0.25
+                    y_ticks_minor: 5
+                    y_grid_label: True
+                    x_grid_label: True
+                    padding: 10
+                    x_grid: True
+                    y_grid: True
+                    xmin: 350
+                    xmax: 750
+                    ymin: 0
+                    ymax: 2
+
+<LoadDialog>:
+    x_end: x_end
+    x_start: x_start
+
+    BoxLayout:
+        orientation: "vertical"
+
+        Label:
+            size_hint: 1, 0.05
+            text: "choose a file on the scroll bar below: "
+
+        FileChooserListView:
+            id: filechooser
+            size_hint: 1, 0.6
+
+        #free space
+        BoxLayout:
+            size_hint: 1, 0.05
+
+        BoxLayout:
+            size_hint: 1, .1
+
+            Label:
+                text: "from which wavelength value start reading a file?"
+                font_size: 20
+
+            TextInput:
+                id: x_start
+                text: "350"
+                multiline: False
+
+        BoxLayout:
+            size_hint: 1, .1
+
+            Label:
+                text: "to which wavelength value reading a file?"
+                font_size: 20
+
+            TextInput:
+                id: x_end
+                text: "750"
+                multiline: False
+
+        BoxLayout:
+
+            size_hint: .4, .05
+            pos_hint: {"x": 0.3}
+
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Load"
+                on_release: root.load(filechooser.path, filechooser.selection, x_start.text, x_end.text)
+
+        BoxLayout:
+            size_hint: 1, .05
+
+<SaveDialog>:
+    text_input: text_input
+    BoxLayout:
+
+        size: root.size
+        pos: root.pos
+        orientation: "vertical"
+        FileChooserListView:
+            id: filechooser
+
+        TextInput:
+            id: text_input
+            size_hint_y: None
+            height: 30
+            multiline: False
+
+        BoxLayout:
+            pos_hint: {"x": 0.3}
+            size_hint: .4, .05
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Save"
+                on_release: root.save(filechooser.path, text_input.text)
+
+        BoxLayout:
+            size_hint: 1, .05
+
+<Addspectraname>:
+
+    name_spectra: name_spectra
+
+    BoxLayout:
+
+        orientation: "vertical"
+        #free space
+        BoxLayout:
+            size_hint: 1, .4
+
+        BoxLayout:
+            size_hint: 1, .2
+
+            Label:
+                size_hint_x: .2
+                text: "set spectra name:"
+
+            TextInput:
+                id: name_spectra
+                size_hint_x: .2
+                multiline: False
+        #free space
+        BoxLayout:
+            size_hint: 1, .4
+
+        BoxLayout:
+            size_hint: .4, .05
+            pos_hint: {"y": 0.1, "x": 0.3}
+
+            Button:
+                text: "Cancel"
+                on_release: root.cancel()
+
+            Button:
+                text: "Accept"
+                on_release: root.add_name(name_spectra.text)
+
+        BoxLayout:
+            size_hint: 1, .05
