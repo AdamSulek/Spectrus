@@ -13,7 +13,7 @@ class TestWelcomeMethods(unittest.TestCase):
         pass
 
     def setUp(self):
-        self.w = Welcome()
+        self.welcome = Welcome()
         self.test_dir = tempfile.TemporaryDirectory(prefix='temp_dir')
         self.test_file = os.path.join(self.test_dir.name, 'test_file')
         with open(self.test_file, 'w') as test_file:
@@ -35,15 +35,15 @@ class TestWelcomeMethods(unittest.TestCase):
         mock_y = "0"
         mock_yy = "2.0"
         mock_dismiss = self.mock_empty()
-        self.w.load(self.test_dir.name, self.adres, "340", "750")
+        self.welcome.load(self.test_dir.name, self.adres, "340", "750")
 
     def test_load_notdigit(self):
         with self.assertRaises(ValueError):
-            self.w.load(self.test_dir.name, self.adres, "340", "as")
+            self.welcome.load(self.test_dir.name, self.adres, "340", "as")
 
     def test_load_notdigit2(self):
         with self.assertRaises(ValueError):
-            self.w.load(self.test_dir.name, self.adres, "a", 740)
+            self.welcome.load(self.test_dir.name, self.adres, "a", 740)
 
     def test_standardize(self):
         '''
@@ -59,7 +59,7 @@ class TestWelcomeMethods(unittest.TestCase):
         nested_list.append(list_y_1)
         nested_list.append(list_x_2)
         nested_list.append(list_y_2)
-        expectation = self.w.standardize_list(nested_list)
+        expectation = self.welcome.standardize_list(nested_list)
         self.assertEqual(len(expectation[0]), len(expectation[2]))
 
     @mock.patch("src.classes.welcome.Welcome.draw")
@@ -69,7 +69,7 @@ class TestWelcomeMethods(unittest.TestCase):
         mock_list_x.__iter__.return_value = [320, 321, 322]
         mock_list_y.__iter__.return_value = [117.05, -13.3, 22]
         mock_draw = self.mock_empty()
-        self.w.sub_min()
+        self.welcome.sub_min()
 
     @mock.patch("src.classes.welcome.Welcome.sub_min")
     @mock.patch("src.classes.welcome.Welcome.draw")
@@ -80,7 +80,7 @@ class TestWelcomeMethods(unittest.TestCase):
         mock_list_y.__iter__.return_value = [117.05, -13.3, 22]
         mock_sub_min = self.mock_empty()
         mock_draw = self.mock_empty()
-        self.w.normalize()
+        self.welcome.normalize()
 
     @mock.patch("src.classes.welcome.Welcome.sub_down")
     @mock.patch("src.classes.welcome.Welcome.draw")
@@ -91,11 +91,11 @@ class TestWelcomeMethods(unittest.TestCase):
         mock_list_y.__iter__.return_value = [117.05, -13.3, 22]
         mock_sub_down = "2.0"
         mock_draw = self.mock_empty()
-        self.w.substract()
+        self.welcome.substract()
 
     def tearDown(self):
         del self.adres
-        del self.w
+        del self.welcome
         del self.test_file
         self.test_dir.cleanup()
 
