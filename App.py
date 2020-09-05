@@ -19,8 +19,8 @@ from src.classes.addspectraname import Addspectraname
 from src.classes.welcome import Welcome
 from src.classes.windowmenager import WindowManager
 from src.functions.util import str_checker
-
 from kivy.lang import Builder
+
 file = Builder.load_file("gui/interface.kv")
 Window.size = (1240, 700)
 
