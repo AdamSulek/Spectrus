@@ -15,8 +15,10 @@ from kivy.properties import ListProperty, StringProperty
 from kivy.uix.floatlayout import FloatLayout
 from matplotlib.widgets import Cursor
 from ..functions.util import str_checker
-from ..classes.popup import invalidLoad, invalidVal, invalidVal2, chooseLoadFile, \
+from ..functions.popup import invalidLoad, invalidVal, invalidVal2, chooseLoadFile, \
   invalidFile, invalid_from_to, invalidSubstract, invalid_enter_number, AddPopup
+# from ..classes.popup import invalidLoad, invalidVal, invalidVal2, chooseLoadFile, \
+#   invalidFile, invalid_from_to, invalidSubstract, invalid_enter_number, AddPopup
 
 class Welcome(Screen):
 
