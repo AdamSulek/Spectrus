@@ -17,8 +17,6 @@ from matplotlib.widgets import Cursor
 from ..functions.util import str_checker
 from ..functions.popup import invalidLoad, invalidVal, invalidVal2, chooseLoadFile, \
   invalidFile, invalid_from_to, invalidSubstract, invalid_enter_number, AddPopup
-# from ..classes.popup import invalidLoad, invalidVal, invalidVal2, chooseLoadFile, \
-#   invalidFile, invalid_from_to, invalidSubstract, invalid_enter_number, AddPopup
 
 class Welcome(Screen):
 
@@ -123,7 +121,7 @@ class Welcome(Screen):
                 self.dismiss_popup()
         else:
             chooseLoadFile()
-
+        print("jetsem w welcome.load i wyswietlam self.x_start".format(self.x_start.text))
     def show_save(self):
         '''
             This function trigger Save Dialog window.

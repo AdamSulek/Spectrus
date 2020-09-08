@@ -6,8 +6,8 @@ import unittest.mock as mock
 from kivy_garden.graph import Graph, MeshLinePlot, SmoothLinePlot
 import tempfile
 from kivy.properties import ObjectProperty
-print("jestem w tests i wyswietlam sys.path: ")
-print(sys.path)
+# print("jestem w tests i wyswietlam sys.path: ")
+# print(sys.path)
 
 class TestWelcomeMethods(unittest.TestCase):
 
