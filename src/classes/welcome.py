@@ -16,7 +16,8 @@ from kivy.uix.floatlayout import FloatLayout
 from matplotlib.widgets import Cursor
 from ..functions.util import str_checker
 from ..functions.popup import invalidLoad, invalidVal, invalidVal2, chooseLoadFile, \
-  invalidFile, invalid_from_to, invalidSubstract, invalid_enter_number, AddPopup
+  invalidFile, invalid_from_to, invalidSubstract, invalid_enter_number, AddPopup, \
+  invalidSave
 
 class Welcome(Screen):
 
@@ -99,10 +100,13 @@ class Welcome(Screen):
 
         try:
             if filename != []:
+                # print("tu wlazlem")
                 with open(os.path.join(path, filename[0]), 'r') as stream:
                     first = False
                     for index, line_val in enumerate(stream.readlines()):
+                        print("index: {}, line_val: {}".format(index, line_val))
                         if re.match(pattern, line_val):
+                            print("tu wlazlem")
                             x_val = int(line_val.split()[0])
                             if x_val >= int(x_start) and x_val <= int(x_end):
                                 self.list_x.append(int(line_val.split()[0]))
@@ -122,7 +126,7 @@ class Welcome(Screen):
                     self.dismiss_popup()
             else:
                 chooseLoadFile()
-                
+
         except ValueError:
             invalidLoad()
         # print("jetsem w welcome.load i wyswietlam self.x_start".format(self.x_start.text))
@@ -143,27 +147,31 @@ class Welcome(Screen):
 
             NaN value is write as white space.
         '''
-        self.norm = self.standardize_list(self.lists_of_lists)
-        for lists in self.lists_of_lists:
-            max_val = len(self.lists_of_lists[0])
-            if len(lists) > max_val:
-                max_val = len(lists)
-        with open(os.path.join(path, filename), 'w') as stream:
-            index = 0
-            for lines in range(0, max_val-1):
-                line = ""
-                for single_list in self.norm:
-                    if np.isnan(single_list[index]):
-                        line += '\t' + ' '
-                    else:
-                        line += str(single_list[index]) + ' '
-                line += '\n'
-                index += 1
-                stream.write(line)
+        try:
+            self.norm = self.standardize_list(self.lists_of_lists)
+            for lists in self.lists_of_lists:
+                max_val = len(self.lists_of_lists[0])
+                if len(lists) > max_val:
+                    max_val = len(lists)
+            with open(os.path.join(path, filename), 'w') as stream:
+                index = 0
+                for lines in range(0, max_val-1):
+                    line = ""
+                    for single_list in self.norm:
+                        if np.isnan(single_list[index]):
+                            line += '           '
+                        else:
+                            line += '%.3f' % single_list[index] + ' '
+                    line += '\n'
+                    index += 1
+                    stream.write(line)
 
-        self.list_x = []
-        self.list_y = []
-        self.dismiss_popup()
+            self.list_x = []
+            self.list_y = []
+            self.dismiss_popup()
+
+        except UnboundLocalError or PermissionError:
+            invalidSave()
 
     def standardize_list(self, nested_list):
         '''
@@ -175,14 +183,17 @@ class Welcome(Screen):
             (number of list : max length lists) and missing spaces are
             filled in NaN.
         '''
-        lengths = [i for i in map(len, nested_list)]
-        shape = (len(nested_list), max(lengths))
-        standard = np.full(shape, np.nan)
-        for i, r in enumerate(nested_list):
-            standard[i, :lengths[i]] = r
-        print("===================")
-        print(standard)
-        return standard
+        try:
+            lengths = [i for i in map(len, nested_list)]
+            shape = (len(nested_list), max(lengths))
+            standard = np.full(shape, np.nan)
+            for i, r in enumerate(nested_list):
+                standard[i, :lengths[i]] = r
+            # print("===================")
+            # print(standard)
+            return standard
+        except ValueError:
+            invalidSave()
 
     def show_addname(self):
         '''
