@@ -43,4 +43,4 @@ Choosing:
 - if you process all needed data you can save it with `save` button. Please choose location and filename
 
 #### Screens from the program
-![](spectrus_screenshots.png)
+![](images/spectrus_screenshots.png)
