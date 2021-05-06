@@ -97,31 +97,36 @@ class Welcome(Screen):
         self.list_y = []
         self.list_x = []
 
-        if filename != []:
-            with open(os.path.join(path, filename[0]), 'r') as stream:
-                first = False
-                for index, line_val in enumerate(stream.readlines()):
-                    if re.match(pattern, line_val):
-                        x_val = int(line_val.split()[0])
-                        if x_val >= int(x_start) and x_val <= int(x_end):
-                            self.list_x.append(int(line_val.split()[0]))
-                            self.list_y.append(round(float(line_val.split()[1]), 3))
-                            first = True
-                    if not re.match(pattern, line_val) and first:
-                        break
-                if self.list_x:
-                    #set Textinput variables
-                    self.x_end.text = str((max(self.list_x) + 10))
-                    self.x_start.text = str((min(self.list_x) - 10))
-                    self.y_start.text = str((min(self.list_y) - 0.1))
-                    self.y_end.text = str((max(self.list_y) + 0.1))
-                    self.draw()
-                else:
-                    invalidFile()
-                self.dismiss_popup()
-        else:
-            chooseLoadFile()
-        print("jetsem w welcome.load i wyswietlam self.x_start".format(self.x_start.text))
+        try:
+            if filename != []:
+                with open(os.path.join(path, filename[0]), 'r') as stream:
+                    first = False
+                    for index, line_val in enumerate(stream.readlines()):
+                        if re.match(pattern, line_val):
+                            x_val = int(line_val.split()[0])
+                            if x_val >= int(x_start) and x_val <= int(x_end):
+                                self.list_x.append(int(line_val.split()[0]))
+                                self.list_y.append(round(float(line_val.split()[1]), 3))
+                                first = True
+                        if not re.match(pattern, line_val) and first:
+                            break
+                    if self.list_x:
+                        #set Textinput variables
+                        self.x_end.text = str((max(self.list_x) + 10))
+                        self.x_start.text = str((min(self.list_x) - 10))
+                        self.y_start.text = str((min(self.list_y) - 0.1))
+                        self.y_end.text = str((max(self.list_y) + 0.1))
+                        self.draw()
+                    else:
+                        invalidFile()
+                    self.dismiss_popup()
+            else:
+                chooseLoadFile()
+                
+        except ValueError:
+            invalidLoad()
+        # print("jetsem w welcome.load i wyswietlam self.x_start".format(self.x_start.text))
+
     def show_save(self):
         '''
             This function trigger Save Dialog window.
@@ -175,6 +180,8 @@ class Welcome(Screen):
         standard = np.full(shape, np.nan)
         for i, r in enumerate(nested_list):
             standard[i, :lengths[i]] = r
+        print("===================")
+        print(standard)
         return standard
 
     def show_addname(self):
