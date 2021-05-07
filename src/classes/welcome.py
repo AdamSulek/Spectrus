@@ -103,7 +103,7 @@ class Welcome(Screen):
                 with open(os.path.join(path, filename[0]), 'r') as stream:
                     first = False
                     for index, line_val in enumerate(stream.readlines()):
-                        print("index: {}, line_val: {}".format(index, line_val))
+                        # print("index: {}, line_val: {}".format(index, line_val))
                         if re.match(pattern, line_val):
                             print("tu wlazlem")
                             x_val = int(line_val.split()[0])
@@ -152,19 +152,25 @@ class Welcome(Screen):
                 max_val = len(self.lists_of_lists[0])
                 if len(lists) > max_val:
                     max_val = len(lists)
+            print(self.norm)
+
             with open(os.path.join(path, filename), 'w') as stream:
                 index = 0
-                for lines in range(0, max_val-1):
-                    line = ""
-                    for single_list in self.norm:
-                        if np.isnan(single_list[index]):
-                            line += '           '
+                for i in range(0, max_val-1):
+                    for j in range(len(self.norm)):
+                        if np.isnan(self.norm[j][i]):
+                            stream.write('{:>13}'.format(' '))
                         else:
-                            line += '%.3f' % single_list[index] + ' '
-                    line += '\n'
-                    index += 1
-                    stream.write(line)
-
+                            # y axes
+                            if j % 2:
+                                y = float(self.norm[j][i]) / 1.
+                                yy = '%.3f' % y
+                                stream.write('{:>13}'.format(yy))
+                            # x axes
+                            else:
+                                stream.write('{:>13}'.format(self.norm[j][i]))
+                    stream.write('\n')
+            
             self.list_x = []
             self.list_y = []
             self.dismiss_popup()
