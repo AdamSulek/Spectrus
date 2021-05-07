@@ -44,3 +44,6 @@ Choosing:
 
 #### Screens from the program
 ![](images/spectrus_screenshots.png)
+
+### Run tests
+`python -m unittest tests/tests.py`

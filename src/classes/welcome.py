@@ -100,7 +100,6 @@ class Welcome(Screen):
 
         try:
             if filename != []:
-                # print("tu wlazlem")
                 with open(os.path.join(path, filename[0]), 'r') as stream:
                     first = False
                     for index, line_val in enumerate(stream.readlines()):
@@ -189,8 +188,6 @@ class Welcome(Screen):
             standard = np.full(shape, np.nan)
             for i, r in enumerate(nested_list):
                 standard[i, :lengths[i]] = r
-            # print("===================")
-            # print(standard)
             return standard
         except ValueError:
             invalidSave()
